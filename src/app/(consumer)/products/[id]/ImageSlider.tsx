@@ -11,7 +11,7 @@ export default function ImageSlider({ images }: { images: string[] }) {
                 <img
                     src={images[currentImage]}
                     alt={"Main image"}
-                    className="object-contain"
+                    className="object-contain h-60 sm:h-80 md:h-96"
                 />
             </div>
             <div className="grid grid-cols-4 gap-3">

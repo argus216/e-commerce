@@ -17,14 +17,14 @@ export function Carousel1() {
 
                     <div className="flex gap-6">
                         <Link
-                            href="/product/690d9bb2f914bf336c4c1288"
+                            href="/products/690d9bb2f914bf336c4c1288"
                             className="text-white bg-red-400 px-4 py-2 rounded text-sm md:text-[0.9rem]"
                         >
                             Shop Now
                         </Link>
 
                         <Link
-                            href="/product/690d9bb2f914bf336c4c1288"
+                            href="/products/690d9bb2f914bf336c4c1288"
                             className="flex items-center gap-2 text-sm md:text-[0.9rem]"
                         >
                             Explore deals <CgArrowRight />
@@ -57,14 +57,14 @@ export function Carousel2() {
 
                     <div className="flex gap-6">
                         <Link
-                            href="/product/id1"
+                            href="/products/691858aef81ecae39137ac22"
                             className="text-white bg-red-400 px-4 py-2 rounded"
                         >
                             Buy Now
                         </Link>
 
                         <Link
-                            href="/product/id1"
+                            href="/products/691858aef81ecae39137ac22"
                             className="flex items-center gap-2"
                         >
                             Find More <CgArrowRight />
@@ -98,14 +98,14 @@ export function Carousel3() {
 
                     <div className="flex gap-6">
                         <Link
-                            href="/product/id1"
+                            href="/products/691858e7f81ecae39137ac28"
                             className="text-white bg-red-400 px-4 py-2 rounded"
                         >
                             Order Now
                         </Link>
 
                         <Link
-                            href="/product/id1"
+                            href="/products/691858e7f81ecae39137ac28"
                             className="flex items-center gap-2"
                         >
                             Learn More <CgArrowRight />

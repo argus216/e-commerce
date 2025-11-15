@@ -1,4 +1,3 @@
-import { Seller } from "@/models/Seller";
 import { User } from "@/models/User";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";

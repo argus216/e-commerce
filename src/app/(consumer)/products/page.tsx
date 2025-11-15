@@ -1,8 +1,11 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import ProductIcon from "@/components/ProductIcon";
 import { fetchServer } from "@/utils/fetchServer";
 import { notFound } from "next/navigation";
+
+export const metadata = {
+    title: "Products",
+    description: "Browse our latest products",
+};
 
 type Product = {
     _id: string;
@@ -22,7 +25,7 @@ export default async function ProductsPage() {
     return (
         <>
             <main className="py-8 w-full min-h-screen">
-                <div className="w-4/5 min-w-[400px] max-w-[1400px] mx-auto">
+                <div className="w-4/5 min-w-[300px] max-w-[1400px] mx-auto">
                     <div className="mb-8">
                         <h1 className="text-3xl font-semibold mb-2">
                             All Products

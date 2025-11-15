@@ -2,9 +2,9 @@ import { Cart } from "@/models/Cart";
 import { authOptions } from "@/utils/authOptions";
 import { dbConn } from "@/utils/db";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE() {
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user) {

@@ -2,6 +2,11 @@ import { fetchServer } from "@/utils/fetchServer";
 import ProductUpdate from "./ProductUpdate";
 import { notFound } from "next/navigation";
 
+export const metadata = {
+    title: "Product Update",
+    description: "Update a product",
+};
+
 export default async function ProductUpdatePage({
     params,
 }: {

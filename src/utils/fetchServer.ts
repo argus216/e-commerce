@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 
-export const fetchServer = async (
+export const fetchServer: any = async (
     url: string,
     method: "GET" | "POST" | "DELETE" | "PUT",
     body?: any

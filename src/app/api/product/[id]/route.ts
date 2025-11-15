@@ -28,6 +28,52 @@ export async function GET(
                 },
             },
             {
+                $lookup: {
+                    from: "sellers",
+                    localField: "seller",
+                    foreignField: "_id",
+                    as: "seller",
+                    pipeline: [
+                        {
+                            $project: {
+                                user: 1,
+                                phone: 1,
+                                address: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $unwind: {
+                    path: "$seller",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "seller.user",
+                    foreignField: "_id",
+                    as: "seller.user",
+                    pipeline: [
+                        {
+                            $project: {
+                                name: 1,
+                                email: 1,
+                                image: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $unwind: {
+                    path: "$seller.user",
+                    preserveNullAndEmptyArrays: true,
+                },
+            },
+            {
                 $project: {
                     _id: 1,
                     name: 1,
@@ -36,6 +82,7 @@ export async function GET(
                     rating: 1,
                     images: 1,
                     stock: 1,
+                    seller: 1,
                 },
             },
         ]);

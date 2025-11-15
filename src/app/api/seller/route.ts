@@ -6,7 +6,7 @@ import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
 import z from "zod";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user) {
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
     }
 }
 
-export async function POST(req: NextRequest) {
+export async function POST() {
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user) {

@@ -1,5 +1,4 @@
 import { Category } from "@/models/Category";
-import { Product } from "@/models/Product";
 import { dbConn } from "@/utils/db";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";

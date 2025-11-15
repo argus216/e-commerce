@@ -28,7 +28,7 @@ export default function EmailVerification() {
         setValue(value.slice(0, -1));
     }
 
-    function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+    function handleFocus() {
         inputRef.current[value.length !== 4 ? value.length : 3]?.focus();
     }
 

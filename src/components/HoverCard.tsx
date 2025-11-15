@@ -7,6 +7,7 @@ import { IoLogOutOutline, IoSettingsSharp } from "react-icons/io5";
 import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { LuUserRoundPlus } from "react-icons/lu";
+import Link from "next/link";
 
 type HoverCardProps = {
     name: string;
@@ -72,32 +73,32 @@ export default function HoverCard({
                         {role !== "CUSTOMER" ? (
                             <div className="flex flex-row items-center gap-4">
                                 <IoSettingsSharp />
-                                <a
+                                <Link
                                     href="/seller"
                                     className="text-sm cursor-pointer hover:font-semibold"
                                 >
                                     Seller Dashboard
-                                </a>
+                                </Link>
                             </div>
                         ) : (
                             <div className="flex flex-row items-center gap-4">
                                 <LuUserRoundPlus />
-                                <a
+                                <Link
                                     href="/seller/create"
                                     className="text-sm cursor-pointer hover:font-semibold"
                                 >
                                     Create Seller Dashboard
-                                </a>
+                                </Link>
                             </div>
                         )}
                         <div className="flex flex-row items-center gap-4">
                             <RxArchive />
-                            <a
+                            <Link
                                 href="/orders"
                                 className="text-sm cursor-pointer hover:font-semibold"
                             >
                                 My Orders
-                            </a>
+                            </Link>
                         </div>
                         <div className="flex flex-row items-center gap-4">
                             <IoLogOutOutline className="h-6 w-6" />

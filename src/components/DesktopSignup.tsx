@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
@@ -36,9 +37,7 @@ export default function DesktopSignup() {
             });
             const response = await res.json();
             if (response.name === "ZodError") {
-                console.log("Zod error");
                 const z = JSON.parse(response.message);
-                console.log(z);
                 toast.error(z[0].message || "Something went wrong.");
                 setLoading(false);
                 return;
@@ -69,15 +68,21 @@ export default function DesktopSignup() {
     }
 
     return (
-        <div className="w-3/4 min-w-[400px] max-w-[1000px] bg-white border border-neutral-400/40 rounded-xl shadow p-4 grid grid-cols-2 gap-4">
-            <div className="rounded-xl bg-neutral-200"></div>
-            <div className="grid gap-4 place-items-center p-12">
+        <div className="w-[90%] md:w-3/4 md:min-w-[800px] max-w-[1000px] bg-white border border-neutral-400/40 rounded-xl shadow p-4 grid md:grid-cols-2 gap-4">
+            <div className="rounded-xl bg-neutral-200 hidden sm:block"></div>
+            <div className="grid gap-4 place-items-center p-6 xl:p-12">
                 <h1 className="text-left w-full">Create Account</h1>
                 <p className="text-left w-full">
                     Create a new Account Seamless Shopping Experience
                 </p>
                 <div className="flex flex-row gap-2 w-full">
-                    <button>
+                    <button
+                        onClick={() => {
+                            signIn("google", {
+                                callbackUrl: "/",
+                            });
+                        }}
+                    >
                         <FaGoogle />
                         <p>Google</p>
                     </button>
@@ -92,7 +97,7 @@ export default function DesktopSignup() {
                     <div className="flex-1 h-px bg-gray-300/80"></div>
                 </div>
                 <div className="grid gap-2 w-full">
-                    <div className="w-full grid grid-cols-2 gap-4">
+                    <div className="w-full grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-4">
                         <div>
                             <label
                                 htmlFor="first-name"
@@ -149,12 +154,12 @@ export default function DesktopSignup() {
                 </button>
                 <div className="flex flex-row gap-2 items-center justify-center w-full">
                     <p>Already have an account?</p>
-                    <a
+                    <Link
                         href="/login"
                         className="text-red-400 font-semibold text-sm"
                     >
                         Login
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

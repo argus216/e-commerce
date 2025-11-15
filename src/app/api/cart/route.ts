@@ -1,6 +1,5 @@
 import { Cart } from "@/models/Cart";
 import { Product } from "@/models/Product";
-import { User } from "@/models/User";
 import { authOptions } from "@/utils/authOptions";
 import { dbConn } from "@/utils/db";
 import mongoose from "mongoose";
@@ -8,7 +7,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET cart for logged-in user
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user) {

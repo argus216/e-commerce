@@ -1,14 +1,18 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Contact Us",
+    description: "Get in touch with us",
+};
 
 export default async function ContactPage() {
     return (
         <>
             <main className="py-8 w-full min-h-screen">
-                <div className="w-4/5 min-w-[400px] max-w-[800px] mx-auto grid gap-6">
+                <div className="w-4/5 min-w-[200px] max-w-[800px] mx-auto grid gap-6">
                     <h1 className="text-3xl font-semibold">Contact Us</h1>
                     <p className="text-neutral-700">
-                        We'd love to hear from you. Send us a message.
+                        We&apos;d love to hear from you. Send us a message.
                     </p>
 
                     <form className="grid gap-4 border border-neutral-200 p-6">

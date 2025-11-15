@@ -4,10 +4,11 @@ import { Order } from "@/models/Order";
 import { Product } from "@/models/Product";
 import { authOptions } from "@/utils/authOptions";
 import { dbConn } from "@/utils/db";
+import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const session = await getServerSession(authOptions);
         if (!session || !session.user) {
@@ -19,9 +20,128 @@ export async function GET(req: NextRequest) {
 
         await dbConn();
 
-        const orders = await Order.find({
-            user: session.user._id,
-        }).sort({ createdAt: -1 });
+        const orders = await Order.aggregate([
+            {
+                $match: {
+                    user: new mongoose.Types.ObjectId(session.user._id),
+                },
+            },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "product",
+                    foreignField: "_id",
+                    as: "product",
+                    pipeline: [
+                        {
+                            $addFields: {
+                                image: {
+                                    $first: "$images",
+                                },
+                            },
+                        },
+                        {
+                            $project: {
+                                name: 1,
+                                image: 1,
+                                price: 1,
+                                seller: 1,
+                                _id: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $lookup: {
+                    from: "sellers",
+                    localField: "product.seller",
+                    foreignField: "_id",
+                    as: "seller",
+                    pipeline: [
+                        {
+                            $project: {
+                                user: 1,
+                                phone: 1,
+                                rating: 1,
+                                address: 1,
+                                _id: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $addFields: {
+                    seller: {
+                        $first: "$seller",
+                    },
+                },
+            },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "seller.user",
+                    foreignField: "_id",
+                    as: "seller.user",
+                    pipeline: [
+                        {
+                            $project: {
+                                name: 1,
+                                image: 1,
+                                email: 1,
+                                _id: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $lookup: {
+                    from: "coupons",
+                    localField: "coupen",
+                    foreignField: "code",
+                    as: "coupen",
+                    pipeline: [
+                        {
+                            $project: {
+                                code: 1,
+                                discount: 1,
+                                minPurchase: 1,
+                                maxDiscount: 1,
+                                _id: 1,
+                            },
+                        },
+                    ],
+                },
+            },
+            {
+                $addFields: {
+                    product: {
+                        $first: "$product",
+                    },
+                    "seller.user": {
+                        $first: "$seller.user",
+                    },
+                    coupen: {
+                        $first: "$coupen",
+                    },
+                },
+            },
+            {
+                $project: {
+                    _id: 1,
+                    product: 1,
+                    quantity: 1,
+                    createdAt: 1,
+                    status: 1,
+                    shippingAddress: 1,
+                    paymentMethod: 1,
+                    coupen: 1,
+                    seller: 1,
+                },
+            },
+        ]);
 
         return NextResponse.json(
             {
@@ -32,6 +152,7 @@ export async function GET(req: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { message: "Something went wrong", success: false },
             { status: 500 }

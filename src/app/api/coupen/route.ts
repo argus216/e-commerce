@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Role } from "@/models/User";
 
 // GET all coupons
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         await dbConn();
 

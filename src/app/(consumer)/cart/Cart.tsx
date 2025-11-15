@@ -1,12 +1,12 @@
 "use client";
 
 import { fetchClient } from "@/utils/fetchClient";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { IoAdd, IoRemove } from "react-icons/io5";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type CartItem = {
     product: {
@@ -25,10 +25,9 @@ type Cart = {
     items: CartItem[];
 };
 
-export default function Cart() {
+export default function Cart({ cartProp }: { cartProp: Cart }) {
     const router = useRouter();
-    const [cart, setCart] = useState<Cart | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [cart, setCart] = useState<Cart | null>(cartProp);
     const [updating, setUpdating] = useState<string | null>(null);
 
     // Address form state
@@ -54,19 +53,6 @@ export default function Cart() {
         maxDiscount: number;
     } | null>(null);
     const coupenRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        fetchCart();
-    }, []);
-
-    async function fetchCart() {
-        setLoading(true);
-        const res = await fetchClient("cart", "GET", undefined, false);
-        if (res.success) {
-            setCart(res.data);
-        }
-        setLoading(false);
-    }
 
     async function updateQuantity(productId: string, newQuantity: number) {
         if (newQuantity < 1) return;
@@ -124,10 +110,7 @@ export default function Cart() {
         const res = await fetchClient("cart/clear", "DELETE", undefined);
 
         if (res.success) {
-            setCart(res.data);
-            toast.success("Cart cleared");
-        } else {
-            toast.error(res.message || "Failed to clear cart");
+            setCart(null);
         }
     }
 
@@ -141,7 +124,6 @@ export default function Cart() {
             "GET",
             undefined
         );
-        console.log(res);
         if (res.success) {
             setAppliedCoupon(res.data);
         }
@@ -228,35 +210,23 @@ export default function Cart() {
         }
     }
 
-    if (loading) {
-        return (
-            <>
-                <main className="py-8 w-full min-h-screen">
-                    <div className="w-4/5 min-w-[400px] max-w-[1400px] mx-auto">
-                        <p className="text-center">Loading cart...</p>
-                    </div>
-                </main>
-            </>
-        );
-    }
-
     if (!cart || cart.items.length === 0) {
         return (
             <main className="py-8 w-full min-h-screen">
-                <div className="w-4/5 min-w-[400px] max-w-[1400px] mx-auto">
+                <div className="w-4/5 min-w-[200px] max-w-[1400px] mx-auto">
                     <h1 className="text-3xl font-semibold mb-4">
                         Shopping Cart
                     </h1>
                     <div className="text-center py-20">
-                        <p className="text-neutral-600 text-lg mb-4">
+                        <p className="text-neutral-600 text-sm! mb-4">
                             Your cart is empty
                         </p>
-                        <button
-                            onClick={() => router.push("/products")}
-                            className="bg-black text-white px-6 py-2"
+                        <Link
+                            href="/products"
+                            className="bg-black text-sm rounded text-white px-6 py-2"
                         >
                             Continue Shopping
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </main>
@@ -265,7 +235,7 @@ export default function Cart() {
 
     return (
         <main className="py-8 w-full min-h-screen">
-            <div className="w-4/5 min-w-[400px] max-w-[1400px] mx-auto">
+            <div className="w-4/5 min-w-[200px] max-w-[1400px] mx-auto">
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-3xl font-semibold">Shopping Cart</h1>
                     <button
@@ -297,21 +267,23 @@ export default function Cart() {
                                         key={item.product._id}
                                         className="border border-neutral-200 p-4 rounded-2xl flex gap-4 flex-row items-center h-max"
                                     >
-                                        <div className="relative w-32 h-32 bg-neutral-100 rounded-2xl grid place-items-center">
-                                            <img
-                                                src={
-                                                    item.product.image ||
-                                                    "/assests/product_img1.png"
-                                                }
-                                                alt={item.product.name}
-                                                className="object-contain rounded-2xl h-20 w-20"
-                                            />
-                                        </div>
-
-                                        <div className="flex flex-row items-center justify-between w-full">
+                                        <div className="flex flex-col md:flex-row items-center gap-4">
+                                            <div className="relative w-24 h-24 md:w-32 md:h-32 bg-neutral-100 rounded-2xl grid place-items-center">
+                                                <img
+                                                    src={
+                                                        item.product.image ||
+                                                        "/assests/product_img1.png"
+                                                    }
+                                                    alt={item.product.name}
+                                                    className="object-contain rounded-2xl w-14 h-14 md:h-20 md:w-20"
+                                                />
+                                            </div>
                                             <h3 className="font-semibold">
                                                 {item.product.name}
                                             </h3>
+                                        </div>
+
+                                        <div className="flex flex-row items-center justify-between w-full">
                                             <div className="flex items-center gap-3">
                                                 <div className="flex items-center border border-neutral-300 rounded">
                                                     <button

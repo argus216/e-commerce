@@ -1,8 +1,11 @@
 "use client";
 
 import { fetchClient } from "@/utils/fetchClient";
+import { useRouter } from "next/navigation";
 
 export default function Buttons({ id }: { id: string }) {
+    const router = useRouter();
+
     async function addToCart() {
         const res = await fetchClient(`cart`, "POST", {
             productId: id,
@@ -10,7 +13,14 @@ export default function Buttons({ id }: { id: string }) {
         console.log(res);
     }
 
-    async function buyNow() {}
+    async function buyNow() {
+        const res = await fetchClient(`cart`, "POST", {
+            productId: id,
+        });
+        if (res.success) {
+            router.push("/cart");
+        }
+    }
 
     return (
         <div className="flex gap-3 mt-2">

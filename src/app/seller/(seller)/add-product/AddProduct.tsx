@@ -69,7 +69,6 @@ export default function AddProduct() {
                 method: "POST",
                 body: formData,
             }).then((r) => r.json());
-            console.log(res);
             setSubmitting(false);
 
             if (!res.success) {

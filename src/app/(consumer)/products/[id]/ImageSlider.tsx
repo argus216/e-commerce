@@ -7,33 +7,31 @@ export default function ImageSlider({ images }: { images: string[] }) {
 
     return (
         <>
-            <div className="relative w-full aspect-square bg-neutral-100 grid place-items-center">
+            <div className="relative w-full aspect-square bg-neutral-100 grid place-items-center p-12">
                 <img
                     src={images[currentImage]}
                     alt={"Main image"}
-                    className="h-80 w-80 rounded-2xl"
+                    className="object-contain"
                 />
             </div>
-            {images?.length > 1 && (
-                <div className="grid grid-cols-4 gap-3">
-                    {images.slice(0, 4).map((img, idx) => (
-                        <div
-                            key={idx}
-                            className="relative aspect-square bg-neutral-100 cursor-pointer grid place-items-center"
-                            onClick={() => {
-                                if (currentImage === idx) return;
-                                setCurrentImage(idx);
-                            }}
-                        >
-                            <img
-                                src={img}
-                                alt={`side image`}
-                                className="w-24 h-24 rounded"
-                            />
-                        </div>
-                    ))}
-                </div>
-            )}
+            <div className="grid grid-cols-4 gap-3">
+                {images.slice(0, 4).map((img, idx) => (
+                    <div
+                        key={idx}
+                        className="relative aspect-square bg-neutral-100 cursor-pointer grid place-items-center p-6"
+                        onClick={() => {
+                            if (currentImage === idx) return;
+                            setCurrentImage(idx);
+                        }}
+                    >
+                        <img
+                            src={img}
+                            alt={`side image`}
+                            className="w-8 h-8 sm:w-12 sm:h-12 md:w-24 md:h-24 rounded object-contain"
+                        />
+                    </div>
+                ))}
+            </div>
         </>
     );
 }

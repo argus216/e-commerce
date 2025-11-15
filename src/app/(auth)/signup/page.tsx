@@ -1,4 +1,10 @@
 import DesktopSignup from "@/components/DesktopSignup";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Signup",
+    description: "Signup to your account",
+};
 
 export default function SignupPage() {
     return (

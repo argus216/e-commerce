@@ -1,5 +1,11 @@
 import { fetchServer } from "@/utils/fetchServer";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export const metadata = {
+    title: "All Products",
+    description: "View all products",
+};
 
 type Product = {
     _id: string;
@@ -12,7 +18,6 @@ type Product = {
 
 export default async function AllProductsPage() {
     const res = await fetchServer("seller/products", "GET");
-    console.log(res);
     if (!res) {
         notFound();
     }
@@ -37,7 +42,8 @@ export default async function AllProductsPage() {
                         <p>Stock</p>
                     </div>
                     {products.map((p) => (
-                        <a
+                        <Link
+                            key={p._id}
                             href={`/seller/products/${p._id}`}
                             className="flex flex-row justify-around items-center w-full border border-neutral-400/40 p-2 shadow"
                         >
@@ -49,7 +55,7 @@ export default async function AllProductsPage() {
                             <p>{p.name}</p>
                             <p>{p.price}</p>
                             <p>{p.stock}</p>
-                        </a>
+                        </Link>
                     ))}
                 </div>
             )}

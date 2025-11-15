@@ -6,7 +6,7 @@ export async function fetchClient(
     body?: any,
     showSuccessMessage = true,
     headers?: any
-) {
+): Promise<any> {
     try {
         const res = await fetch(`/api/${url}`, {
             cache: "no-cache",

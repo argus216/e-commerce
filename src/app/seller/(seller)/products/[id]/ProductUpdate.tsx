@@ -21,7 +21,7 @@ export default function ProductUpdate({
         const val = Object.fromEntries(formData);
         val["price"] = "$" + val["price"];
 
-        const res = await fetchClient(`product/${product._id}`, "POST", {
+        await fetchClient(`product/${product._id}`, "POST", {
             ...val,
             stock: Number(val.stock),
         });

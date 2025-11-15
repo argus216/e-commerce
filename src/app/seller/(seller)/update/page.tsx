@@ -1,12 +1,13 @@
-import { getServerSession } from "next-auth";
 import UserUpdate from "./UserUpdate";
-import { authOptions } from "@/utils/authOptions";
 import { fetchServer } from "@/utils/fetchServer";
 
+export const metadata = {
+    title: "Update Profile",
+    description: "Update your profile",
+};
+
 export default async function UserUpdatePage() {
-    console.log("--------");
     const res = (await fetchServer("seller", "GET")) as any;
-    console.log("/seller/updtae", res);
 
     return (
         <div>

@@ -1,5 +1,6 @@
 import { AuthOptions } from "next-auth";
 import CredentialProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { dbConn } from "./db";
 import { User } from "@/models/User";
 import bcrypt from "bcrypt";
@@ -7,6 +8,10 @@ import z from "zod";
 
 export const authOptions: AuthOptions = {
     providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        }),
         CredentialProvider({
             id: "credentials",
             name: "Credentials",
@@ -58,7 +63,35 @@ export const authOptions: AuthOptions = {
         }),
     ],
     callbacks: {
-        jwt({ token, user, session, trigger }) {
+        async jwt({ token, user, session, trigger, account, profile }) {
+            if (account?.provider === "google") {
+                const user = await User.findOne({ email: profile?.email });
+                if (user) {
+                    token._id = user._id.toString();
+                    token.email = user.email;
+                    token.name = user.name;
+                    token.image = user.image!;
+                    token.role = user.role!;
+                } else {
+                    const newUser = new User({
+                        name: token?.name,
+                        email: token?.email,
+                        image: token?.picture,
+                        role: "CUSTOMER",
+                        oauth: "GOOGLE",
+                        password: "",
+                    });
+                    await newUser.save();
+                    token._id = newUser._id.toString();
+                    token.email = newUser.email;
+                    token.name = newUser.name;
+                    token.image = newUser.image!;
+                    token.role = newUser.role!;
+                }
+
+                return token;
+            }
+
             if (user) {
                 token._id = user._id;
                 token.email = user.email;

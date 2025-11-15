@@ -1,11 +1,14 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import Ratings from "@/components/Ratings";
 import { fetchServer } from "@/utils/fetchServer";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import ImageSlider from "./ImageSlider";
 import Buttons from "./Buttons";
+import Link from "next/link";
+
+export const metadata = {
+    title: "Product Details",
+    description: "View the details of a product",
+};
 
 type Review = {
     _id: string;
@@ -22,6 +25,15 @@ type Product = {
     images: string[];
     rating: number;
     reviews?: Review[];
+    seller: {
+        _id: string;
+        phone: string;
+        user: {
+            name: string;
+            email: string;
+            image: string;
+        };
+    };
 };
 
 export default async function ProductDetailPage({
@@ -39,8 +51,8 @@ export default async function ProductDetailPage({
     return (
         <>
             <main className="py-8 w-full min-h-screen">
-                <div className="w-4/5 min-w-[400px] max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="grid gap-4">
+                <div className="w-4/5 min-w-[300px] max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="flex flex-col md:items-end gap-4">
                         <ImageSlider images={res.data.images} />
                     </div>
 
@@ -63,6 +75,35 @@ export default async function ProductDetailPage({
                                 {product.description ||
                                     "No description provided."}
                             </p>
+                        </section>
+
+                        <section className="mt-6">
+                            <h2 className="font-semibold mb-2">
+                                Seller Details
+                            </h2>
+                            <Link
+                                href={`/seller/${product.seller._id}`}
+                                className="flex items-center gap-4"
+                            >
+                                <img
+                                    src={product.seller.user.image}
+                                    alt="Seller"
+                                    className="rounded-full w-10 h-10 object-cover"
+                                />
+                                <div>
+                                    <p className="font-semibold">
+                                        {product.seller.user.name}
+                                    </p>
+                                    <div className="flex flex-row gap-2">
+                                        <p className="text-sm text-neutral-600">
+                                            {product.seller.user.email}
+                                        </p>
+                                        <p className="text-sm text-neutral-600">
+                                            +91-{product.seller.phone}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Link>
                         </section>
 
                         <section className="mt-6">

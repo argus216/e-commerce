@@ -1,10 +1,14 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "About Us",
+    description: "Learn more about our store",
+};
 
 export default async function AboutPage() {
     return (
         <main className="py-8 w-full min-h-screen">
-            <div className="w-4/5 min-w-[400px] max-w-[1000px] mx-auto grid gap-6">
+            <div className="w-4/5 min-w-[200px] max-w-[1000px] mx-auto grid gap-6">
                 <h1 className="text-3xl font-semibold">About Us</h1>
                 <p className="text-neutral-700 leading-7">
                     Welcome to our store. We are committed to providing quality

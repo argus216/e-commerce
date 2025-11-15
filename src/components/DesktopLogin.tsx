@@ -6,12 +6,19 @@ import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { LuLoaderCircle } from "react-icons/lu";
+import Link from "next/link";
 
 export default function DesktopLogin() {
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    async function loginWithGoogle() {
+        await signIn("google", {
+            callbackUrl: "/",
+        });
+    }
 
     async function handleLogin() {
         if (!emailRef.current || !passwordRef.current) return;
@@ -29,18 +36,17 @@ export default function DesktopLogin() {
         }
         toast.error(res?.error || "Something went wrong.");
         setLoading(false);
-        console.log(res);
     }
 
     return (
-        <div className="w-3/4 min-w-[400px] max-w-[1000px] bg-white border border-neutral-400/40 rounded-xl shadow p-4 grid grid-cols-2 gap-4">
-            <div className="grid gap-4 place-items-center p-12">
+        <div className="w-[90%] sm:w-3/4 sm:min-w-[600px] max-w-[1000px] bg-white border border-neutral-400/40 rounded-xl shadow p-4 grid sm:grid-cols-2 gap-4">
+            <div className="grid gap-4 place-items-center p-6 lg:p-12">
                 <h1 className="text-left w-full">Welcome</h1>
                 <p className="text-left w-full">
                     Get Started for a Seamless Shopping Experience
                 </p>
                 <div className="flex flex-row gap-2 w-full">
-                    <button>
+                    <button onClick={loginWithGoogle}>
                         <FaGoogle />
                         <p>Google</p>
                     </button>
@@ -85,15 +91,15 @@ export default function DesktopLogin() {
                 </button>
                 <div className="flex flex-row gap-2 items-center justify-center w-full">
                     <p>Don&apos;t have an account?</p>
-                    <a
+                    <Link
                         href="/signup"
                         className="text-red-400 font-semibold text-sm"
                     >
                         Register
-                    </a>
+                    </Link>
                 </div>
             </div>
-            <div className="rounded-xl bg-neutral-200"></div>
+            <div className="rounded-xl bg-neutral-200 hidden sm:block"></div>
         </div>
     );
 }

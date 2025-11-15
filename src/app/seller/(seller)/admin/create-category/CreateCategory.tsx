@@ -1,6 +1,5 @@
 "use client";
 
-import { fetchClient } from "@/utils/fetchClient";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { BsUpload } from "react-icons/bs";
@@ -74,7 +73,6 @@ export default function CreateCategory() {
 
                 <button
                     onClick={async () => {
-                        console.log(image);
                         if (!image) {
                             toast.error("Please select an image.");
                         }

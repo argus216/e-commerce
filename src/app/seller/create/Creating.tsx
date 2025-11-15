@@ -47,7 +47,7 @@ export default function Creating() {
         create();
 
         return () => abortController.abort();
-    }, []);
+    }, [router]);
     return (
         <div className="bg-white rounded w-[500px] grid place-items-center border border-neutral-400/40 p-12 shadow gap-2">
             <div>

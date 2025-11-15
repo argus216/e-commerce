@@ -17,6 +17,7 @@ export interface IUser extends Document {
     otp: string;
     createdAt: Date;
     updatedAt: Date;
+    oauth?: null | undefined | "GOOGLE";
     comparePassword(password: string): Promise<boolean>;
 
     orders: mongoose.Types.ObjectId[];
@@ -50,6 +51,10 @@ const userSchema: Schema<IUser> = new Schema(
         otp: {
             type: String,
             default: "",
+        },
+        oauth: {
+            type: String,
+            default: null,
         },
         orders: [
             {

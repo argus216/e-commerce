@@ -1,9 +1,12 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { fetchServer } from "@/utils/fetchServer";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export const metadata = {
+    title: "Categories",
+    description: "Browse our product categories",
+};
 
 type Category = {
     _id: string;
@@ -21,7 +24,7 @@ export default async function CategoriesPage() {
     return (
         <>
             <main className="py-8 w-full min-h-screen">
-                <div className="w-4/5 min-w-[400px] max-w-[1400px] mx-auto">
+                <div className="w-4/5 min-w-[200px] max-w-[1400px] mx-auto">
                     <div className="mb-8">
                         <h1 className="text-3xl font-semibold mb-2">
                             All Categories
@@ -42,10 +45,10 @@ export default async function CategoriesPage() {
                             {categories.map((category) => (
                                 <Link
                                     key={category._id}
-                                    href={`/products/category/${category._id}`}
+                                    href={`/products/categories/${category._id}`}
                                     className="flex flex-col items-center gap-3 p-4 border border-neutral-200 rounded-lg hover:shadow-lg transition-shadow cursor-pointer"
                                 >
-                                    <div className="relative h-[120px] w-[120px]">
+                                    <div className="relative h-16 w-16 md:h-28 md:w-28">
                                         <Image
                                             src={category.image}
                                             alt={category.name}
